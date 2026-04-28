@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abobaker Altom Babiker · Software Developer</title>
+    <style>
+        :root {
+            --bg: #080c14;
+            --surface: #111827;
+            --surface-alt: #1a2332;
+            --border: #1e2d3d;
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #38bdf8;
+            --accent-strong: #0ea5e9;
+            --accent-glow: rgba(56, 189, 248, 0.25);
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.3);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --radius: 14px;
+            --radius-lg: 22px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            background: var(--bg);
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ---- Language Modal ---- */
+        .lang-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+        .lang-modal-overlay.hidden {
+            display: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        .lang-modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px var(--accent-glow);
+            animation: slideUp 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); }
+        }
+        .lang-modal h2 {
+            font-size: 1.4rem; font-weight: 700; margin-bottom: 0.6rem; color: #fff; letter-spacing: -0.02em;
+        }
+        .lang-modal .sub { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.8rem; }
+        .lang-options { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .lang-btn {
+            flex: 1; min-width: 120px; padding: 1rem 1.4rem; border-radius: var(--radius);
+            border: 2px solid var(--border); background: var(--surface-alt); color: var(--text);
+            cursor: pointer; font-size: 1rem; font-weight: 600; transition: all var(--transition);
+            letter-spacing: 0.02em;
+        }
+        .lang-btn:hover { border-color: var(--accent); box-shadow: 0 0 28px var(--accent-glow); transform: translateY(-2px); background: #1e3348; }
+        .lang-btn .native { display: block; font-size: 1.3rem; margin-bottom: 0.2rem; }
+        .lang-btn .label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+        /* ---- RTL overrides ---- */
+        html[dir="rtl"] body { direction: rtl; text-align: right; }
+        html[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+        html[dir="rtl"] .hero-cta { flex-direction: row-reverse; }
+        html[dir="rtl"] .project-tags { justify-content: flex-end; }
+        html[dir="rtl"] .section-title::after { margin-left: 0; margin-right: 0.6rem; }
+        html[dir="rtl"] .contact-item { flex-direction: row-reverse; }
+
+        /* ---- Navigation ---- */
+        .navbar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8,12,20,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center; height: 58px;
+        }
+        .nav-brand { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; color: #fff; }
+        .nav-brand span { color: var(--accent); }
+        .nav-links { display: flex; gap: 1.6rem; list-style: none; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); transition: color var(--transition); }
+        .nav-links a:hover { color: var(--accent); }
+        .lang-switch-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-size: 0.75rem;
+            font-weight: 600; letter-spacing: 0.04em; transition: all var(--transition);
+        }
+        .lang-switch-btn:hover { border-color: var(--accent); color: var(--accent); }
+        @media (max-width: 768px) {
+            .nav-links { gap: 0.8rem; font-size: 0.7rem; }
+            .navbar { padding: 0 1rem; }
+            .nav-brand { font-size: 0.9rem; }
+        }
+
+        /* ---- Sections ---- */
+        .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 5rem 0; }
+        section:not(:last-of-type) { border-bottom: 1px solid var(--border); }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 2.5rem;
+            letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* ---- Hero ---- */
+        .hero { padding: 6rem 0 4rem; text-align: center; }
+        .hero .avatar-ring {
+            width: 130px; height: 130px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-strong), var(--gold));
+            padding: 3px; margin: 0 auto 1.5rem; box-shadow: 0 0 60px var(--accent-glow);
+        }
+        .hero .avatar-inner {
+            width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; background: var(--surface);
+        }
+        .hero .avatar-inner img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.04em;
+            color: #fff; margin-bottom: 0.5rem; line-height: 1.1;
+        }
+        .hero .role { font-size: 1.1rem; color: var(--accent); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 1.4rem; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.75rem 1.6rem;
+            border-radius: 30px; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.02em;
+            cursor: pointer; text-decoration: none; transition: all var(--transition);
+        }
+        .btn-primary { background: var(--accent-strong); color: #fff; border: none; box-shadow: 0 6px 24px var(--accent-glow); }
+        .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 32px var(--accent-glow); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ---- Project Cards ---- */
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem;
+        }
+        @media (max-width: 500px) { .projects-grid { grid-template-columns: 1fr; } }
+        .project-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+            overflow: hidden; transition: all var(--transition); position: relative;
+            text-decoration: none; color: inherit; display: block;
+        }
+        .project-card:hover {
+            border-color: #2d4a6a; transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 30px var(--accent-glow);
+        }
+        .project-card-image {
+            width: 100%; height: 180px; object-fit: contain; display: block; border-bottom: 1px solid var(--border);
+            background: var(--surface-alt); padding: 20px;
+        }
+        .project-card-body { padding: 1.5rem 1.8rem; }
+        .project-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
+        .project-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1rem; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+        .project-tag {
+            background: var(--surface-alt); color: var(--accent); font-size: 0.7rem; font-weight: 600;
+            padding: 0.25rem 0.7rem; border-radius: 12px; letter-spacing: 0.03em;
+            border: 1px solid rgba(56,189,248,0.15);
+        }
+        .project-link-indicator {
+            display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem;
+            font-weight: 600; color: var(--gold);
+        }
+
+        /* ---- Card ---- */
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+            padding: 1.8rem; margin-bottom: 1.2rem;
+        }
+        .card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+        .card .card-sub { font-size: 0.8rem; color: var(--accent); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+        .card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; }
+
+        /* ---- Skills ---- */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
+        .skill-tag {
+            background: var(--surface-alt); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 0.55rem 1rem; border-radius: 10px; font-size: 0.82rem; font-weight: 500;
+            text-align: center; transition: all var(--transition); cursor: default;
+        }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: #1a2d40; }
+        .skill-tag.highlight { border-color: var(--gold); color: var(--gold); background: rgba(245,158,11,0.08); }
+
+        /* ---- Soft Skills ---- */
+        .soft-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .soft-chip {
+            background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: var(--gold);
+            padding: 0.5rem 1.1rem; border-radius: 24px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+        }
+
+        /* ---- Languages ---- */
+        .lang-list { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+        .lang-item { font-size: 0.95rem; color: var(--text); font-weight: 600; }
+        .lang-item span { color: var(--text-muted); font-weight: 400; font-size: 0.82rem; margin-inline-start: 0.3rem; }
+
+        /* ---- Contact ---- */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .contact-item {
+            display: flex; align-items: center; gap: 0.8rem; background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1rem 1.4rem; text-decoration: none; color: var(--text); transition: all var(--transition);
+        }
+        .contact-item:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        .contact-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--surface-alt);
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+        }
+
+        /* ---- Footer ---- */
+        footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border); }
+
+        @media (max-width: 600px) {
+            section { padding: 3rem 0; }
+            .container { padding: 0 1.2rem; }
+            .hero { padding: 4rem 0 2.5rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <!-- Language Modal -->
+    <div class="lang-modal-overlay" id="langModalOverlay">
+        <div class="lang-modal">
+            <h2 id="langModalTitle">Choose Your Language</h2>
+            <p class="sub" id="langModalSub">Select your preferred language to view this portfolio</p>
+            <div class="lang-options">
+                <button class="lang-btn" onclick="setLanguage('en')">
+                    <span class="native">English</span><span class="label">LTR</span>
+                </button>
+                <button class="lang-btn" onclick="setLanguage('ar')">
+                    <span class="native">العربية</span><span class="label">RTL</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">&lt;<span>AB</span>/&gt;</div>
+        <ul class="nav-links">
+            <li><a href="#projects" data-key="nav_projects">Projects</a></li>
+            <li><a href="#education" data-key="nav_education">Education</a></li>
+            <li><a href="#skills" data-key="nav_skills">Skills</a></li>
+            <li><a href="#contact" data-key="nav_contact">Contact</a></li>
+        </ul>
+        <button class="lang-switch-btn" onclick="toggleLanguage()" id="langSwitchBtn">AR</button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="avatar-ring">
+                <div class="avatar-inner">
+                    <img src="assets/profile_photo.jpg" alt="Abobaker Altom Babiker">
+                </div>
+            </div>
+            <h1>Abobaker Altom Babiker</h1>
+            <p class="role" data-key="role">Software Developer</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary" data-key="cta_work">View My Work</a>
+                <a href="#contact" class="btn btn-outline" data-key="cta_contact">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title" data-key="sec_projects">Projects</h2>
+            <div class="projects-grid">
+
+                <a class="project-card" href="https://bakka22.github.io/Aswaqak_Customer" target="_blank" rel="noopener">
+                    <img class="project-card-image" src="assets/aswaqak_logo.png" alt="Aswaqak App Logo" loading="lazy">
+                    <div class="project-card-body">
+                        <h3>Aswaqak Mobile App</h3>
+                        <p data-key="proj_aswaqak">Flutter-based mobile marketplace for discovering local shops and products by category, state, and city. Customer flows for authentication, shop discovery, product browsing, basket management, and WhatsApp-based order submission.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Flutter</span><span class="project-tag">Dart</span><span class="project-tag">.NET 8</span><span class="project-tag">MongoDB</span><span class="project-tag">JWT</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="https://bakka22.github.io/Eiadtek_Customer" target="_blank" rel="noopener">
+                    <img class="project-card-image" src="assets/Eiadtek_logo.png" alt="Eiadtek App Logo" loading="lazy">
+                    <div class="project-card-body">
+                        <h3>Eiadtek Mobile App</h3>
+                        <p data-key="proj_eiadtek">Medical services app developed with Flutter and Dart featuring smooth UI/UX design. Backend built with Python, FastAPI, JWT authentication, and MongoDB database with indexing for fast queries.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Flutter</span><span class="project-tag">Dart</span><span class="project-tag">Python</span><span class="project-tag">FastAPI</span><span class="project-tag">MongoDB</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="https://bakka22.github.io/Exam_Platform" target="_blank" rel="noopener">
+                    <img class="project-card-image" src="assets/Exam_platform.png" alt="Exam Platform Logo" loading="lazy">
+                    <div class="project-card-body">
+                        <h3>Exam Platform</h3>
+                        <p data-key="proj_exam">Comprehensive exam management platform using Python, Flask, Flask-Security, jQuery, HTML, and CSS. Secure user authentication with SQLAlchemy.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span><span class="project-tag">Flask</span><span class="project-tag">SQLAlchemy</span><span class="project-tag">jQuery</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="https://bakka22.github.io/maze" target="_blank" rel="noopener">
+                    <img class="project-card-image" src="assets/maze_game.png" alt="Maze Game Logo" loading="lazy">
+                    <div class="project-card-body">
+                        <h3>Maze Game</h3>
+                        <p data-key="proj_maze">Interactive maze game built in C using the SDL library and ray casting algorithm. Focused on optimizing game performance with algorithmic problem-solving.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">C</span><span class="project-tag">SDL</span><span class="project-tag">Ray Casting</span><span class="project-tag">Algorithms</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Training -->
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title" data-key="sec_education">Education & Training</h2>
+            <div class="card">
+                <h3 data-key="edu_title">Education</h3>
+                <p class="card-sub">University of Gezira, Wed Madani, Sudan</p>
+                <p data-key="edu_text">Bachelor of Dentistry — Completed 8 semesters (program interrupted due to war).</p>
+            </div>
+            <div class="card">
+                <h3 data-key="train_title">Training & Certificates</h3>
+                <p>▸ <span data-key="train_aws">AWS Cloud Computing Course — ALX Foundation</span></p>
+                <p style="margin-top:0.4rem;">▸ <span data-key="train_se">12-Month Intensive Software Engineering Program | Back-End Specialization — ALX Foundation</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title" data-key="sec_skills">Areas of Expertise</h2>
+            <div class="skills-grid" id="skillsGrid"></div>
+            <div style="margin-top:2.5rem;">
+                <h3 style="color:#fff;margin-bottom:1rem;font-size:1rem;" data-key="soft_title">Soft Skills</h3>
+                <div class="soft-grid">
+                    <span class="soft-chip" data-key="soft1">Strong problem-solving</span>
+                    <span class="soft-chip" data-key="soft2">Excellent communication</span>
+                    <span class="soft-chip" data-key="soft3">Adaptability & learning mindset</span>
+                    <span class="soft-chip" data-key="soft4">Team collaboration & leadership</span>
+                    <span class="soft-chip" data-key="soft5">Fast learner</span>
+                </div>
+            </div>
+            <div style="margin-top:2rem;">
+                <h3 style="color:#fff;margin-bottom:0.8rem;font-size:1rem;" data-key="lang_title">Languages</h3>
+                <div class="lang-list">
+                    <span class="lang-item">🇸🇩 العربية<span>(Fluent)</span></span>
+                    <span class="lang-item">🇬🇧 English<span>(Advanced)</span></span>
+                    <span class="lang-item">🇩🇪 Deutsch<span>(Intermediate)</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title" data-key="sec_contact">Contact</h2>
+            <div class="contact-grid">
+                <a class="contact-item" href="mailto:abobakereltom@gmail.com">
+                    <div class="contact-icon">✉️</div>
+                    <div><strong>Email</strong><br><span style="font-size:0.82rem;color:var(--text-muted);">abobakereltom@gmail.com</span></div>
+                </a>
+                <a class="contact-item" href="https://wa.me/249113279460" target="_blank" rel="noopener">
+                    <div class="contact-icon">📱</div>
+                    <div><strong>WhatsApp</strong><br><span style="font-size:0.82rem;color:var(--text-muted);">+249 113 279 460</span></div>
+                </a>
+                <a class="contact-item" href="https://github.com/bakka22" target="_blank" rel="noopener">
+                    <div class="contact-icon">💻</div>
+                    <div><strong>GitHub</strong><br><span style="font-size:0.82rem;color:var(--text-muted);">github.com/bakka22</span></div>
+                </a>
+                <a class="contact-item" href="https://www.linkedin.com/in/abobaker-altom-1b6b87384" target="_blank" rel="noopener">
+                    <div class="contact-icon">🔗</div>
+                    <div><strong>LinkedIn</strong><br><span style="font-size:0.82rem;color:var(--text-muted);">Connect with me</span></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Abobaker Altom Babiker. Built with care.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                nav_projects: 'Projects', nav_education: 'Education', nav_skills: 'Skills', nav_contact: 'Contact',
+                role: 'Software Developer', cta_work: 'View My Work', cta_contact: 'Get In Touch',
+                sec_projects: 'Projects',
+                proj_aswaqak: 'Flutter-based mobile marketplace for discovering local shops and products by category, state, and city. Customer flows for authentication, shop discovery, product browsing, basket management, and WhatsApp-based order submission.',
+                proj_eiadtek: 'Medical services app developed with Flutter and Dart featuring smooth UI/UX design. Backend built with Python, FastAPI, JWT authentication, and MongoDB database with indexing for fast queries.',
+                proj_exam: 'Comprehensive exam management platform using Python, Flask, Flask-Security, jQuery, HTML, and CSS. Secure user authentication with SQLAlchemy.',
+                proj_maze: 'Interactive maze game built in C using the SDL library and ray casting algorithm. Focused on optimizing game performance with algorithmic problem-solving.',
+                sec_education: 'Education & Training',
+                edu_title: 'Education', edu_text: 'Bachelor of Dentistry — Completed 8 semesters (program interrupted due to war).',
+                train_title: 'Training & Certificates',
+                train_aws: 'AWS Cloud Computing Course — ALX Foundation',
+                train_se: '12-Month Intensive Software Engineering Program | Back-End Specialization — ALX Foundation',
+                sec_skills: 'Areas of Expertise',
+                soft_title: 'Soft Skills',
+                soft1: 'Strong problem-solving', soft2: 'Excellent communication', soft3: 'Adaptability & learning mindset',
+                soft4: 'Team collaboration & leadership', soft5: 'Fast learner',
+                lang_title: 'Languages',
+                sec_contact: 'Contact',
+                langModalTitle: 'Choose Your Language', langModalSub: 'Select your preferred language to view this portfolio',
+            },
+            ar: {
+                nav_projects: 'المشاريع', nav_education: 'التعليم', nav_skills: 'المهارات', nav_contact: 'تواصل',
+                role: 'مطور برمجيات', cta_work: 'شاهد أعمالي', cta_contact: 'تواصل معي',
+                sec_projects: 'المشاريع',
+                proj_aswaqak: 'تطبيق سوق إلكتروني مبني بـ Flutter لاكتشاف المتاجر والمنتجات المحلية حسب الفئة والولاية والمدينة. يتضمن تدفقات العملاء للمصادقة واستكشاف المتاجر وتصفح المنتجات وإدارة السلة وتقديم الطلبات عبر واتساب.',
+                proj_eiadtek: 'تطبيق خدمات طبية تم تطويره باستخدام Flutter و Dart بتصميم واجهة مستخدم سلس. الواجهة الخلفية مبنية باستخدام Python و FastAPI مع مصادقة JWT وقاعدة بيانات MongoDB.',
+                proj_exam: 'منصة إدارة اختبارات شاملة باستخدام Python و Flask و Flask-Security و jQuery و HTML و CSS. تتضمن مصادقة مستخدم آمنة مع SQLAlchemy.',
+                proj_maze: 'لعبة متاهة تفاعلية مبنية بلغة C باستخدام مكتبة SDL وخوارزمية ray casting. التركيز على تحسين أداء اللعبة بحلول خوارزمية.',
+                sec_education: 'التعليم والتدريب',
+                edu_title: 'التعليم', edu_text: 'بكالوريوس طب الأسنان — أتممت 8 فصول دراسية (توقف البرنامج بسبب الحرب).',
+                train_title: 'التدريب والشهادات',
+                train_aws: 'دورة AWS للحوسبة السحابية — مؤسسة ALX',
+                train_se: 'برنامج هندسة برمجيات مكثف لمدة 12 شهراً | تخصص تطوير الخلفية — مؤسسة ALX',
+                sec_skills: 'مجالات الخبرة',
+                soft_title: 'المهارات الشخصية',
+                soft1: 'مهارات قوية في حل المشكلات', soft2: 'تواصل كتابي وشفهي ممتاز', soft3: 'القدرة على التكيف والتعلم المستمر',
+                soft4: 'التعاون الجماعي والقيادة', soft5: 'سريع التعلم',
+                lang_title: 'اللغات',
+                sec_contact: 'تواصل',
+                langModalTitle: 'اختر لغتك', langModalSub: 'حدد لغتك المفضلة لتصفح هذا الموقع',
+            }
+        };
+
+        const skillsList = [
+            'Python','Flask','FastAPI','API Development','JWT Authentication','GitHub','C','Flutter','Dart',
+            'Data Structures & Algorithms','Performance Optimization','HTML & CSS','JavaScript','SQLAlchemy',
+            'Bash Scripting','Automation','Testing','SQL & NoSQL Databases','MongoDB','MySQL','Node.js'
+        ];
+        const highlightSkills = ['Python','Flutter','FastAPI','Flask','MongoDB','Node.js'];
+
+        function renderSkills() {
+            const grid = document.getElementById('skillsGrid');
+            grid.innerHTML = skillsList.map(s => {
+                const cls = highlightSkills.includes(s) ? 'skill-tag highlight' : 'skill-tag';
+                return `<span class="${cls}">${s}</span>`;
+            }).join('');
+        }
+
+        let currentLang = 'en';
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langSwitchBtn').textContent = lang === 'ar' ? 'EN' : 'AR';
+            document.getElementById('langModalOverlay').classList.add('hidden');
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang]?.[key]) el.textContent = translations[lang][key];
+            });
+            localStorage.setItem('portfolio-lang', lang);
+        }
+        function toggleLanguage() { setLanguage(currentLang === 'en' ? 'ar' : 'en'); }
+
+        renderSkills();
+        const savedLang = localStorage.getItem('portfolio-lang');
+        if (savedLang) { setLanguage(savedLang); document.getElementById('langModalOverlay').classList.add('hidden'); }
+        else { document.getElementById('langModalOverlay').classList.remove('hidden'); }
+    </script>
+</body>
+</html>
