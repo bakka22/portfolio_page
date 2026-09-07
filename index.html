@@ -180,6 +180,22 @@
             width: 100%; height: 180px; object-fit: contain; display: block; border-bottom: 1px solid var(--border);
             background: var(--surface-alt); padding: 20px;
         }
+        .project-card-logo-panel {
+            width: 100%; height: 180px; border-bottom: 1px solid var(--border);
+            background: var(--surface-alt); padding: 20px;
+            display: flex; align-items: center; justify-content: center; gap: 18px;
+        }
+        .project-card-logo-panel img {
+            display: block; max-width: 100%; max-height: 100%; object-fit: contain;
+        }
+        .project-card-logo-panel.single img { width: 132px; height: 132px; border-radius: 22px; }
+        .project-card-logo-panel.combo img:first-child { width: 92px; height: 92px; border-radius: 22px; flex: 0 0 auto; }
+        .project-card-logo-panel.combo img:last-child { width: 108px; height: 152px; border-radius: 6px; flex: 0 0 auto; }
+        @media (max-width: 430px) {
+            .project-card-logo-panel { gap: 12px; padding: 16px; }
+            .project-card-logo-panel.combo img:first-child { width: 76px; height: 76px; }
+            .project-card-logo-panel.combo img:last-child { width: 92px; height: 130px; }
+        }
         .project-card-body { padding: 1.5rem 1.8rem; }
         .project-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
         .project-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1rem; }
@@ -211,7 +227,6 @@
             text-align: center; transition: all var(--transition); cursor: default;
         }
         .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: #1a2d40; }
-        .skill-tag.highlight { border-color: var(--gold); color: var(--gold); background: rgba(245,158,11,0.08); }
 
         /* ---- Soft Skills ---- */
         .soft-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -306,6 +321,35 @@
         <div class="container">
             <h2 class="section-title" data-key="sec_projects">Projects</h2>
             <div class="projects-grid">
+
+                <a class="project-card" href="https://bakka22.github.io/khabeer/" target="_blank" rel="noopener">
+                    <div class="project-card-logo-panel combo">
+                        <img src="assets/khabeer-logo.png" alt="Khabeer logo" loading="lazy">
+                        <img src="assets/hermes-agent-logo.png" alt="Hermes Agent logo" loading="lazy">
+                    </div>
+                    <div class="project-card-body">
+                        <h3>Khabeer - Hermes Agent on Android</h3>
+                        <p data-key="proj_khabeer">An Android AI agent built by extending the open-source Termux terminal. It supports streaming model execution, tool calling, durable SQLite transcripts, session branching, recovery search, background subagents, memory files, approval-gated writes, plugins, MCP, web search, vision, file attachments, and custom providers.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Java</span><span class="project-tag">Android SDK</span><span class="project-tag">Gradle</span><span class="project-tag">SQLite</span><span class="project-tag">REST/SSE</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
+
+                <a class="project-card" href="https://bakka22.github.io/NileBit_edu/" target="_blank" rel="noopener">
+                    <div class="project-card-logo-panel single">
+                        <img src="assets/nilebit-mark.png" alt="NileBit Academy logo" loading="lazy">
+                    </div>
+                    <div class="project-card-body">
+                        <h3>NileBit Academy</h3>
+                        <p data-key="proj_nilebit">A full-stack online learning platform for Sudanese students with course discovery, Bankak enrollment, payment proof review, protected lessons, progress tracking, course communities, bilingual AI support, secure HLS video delivery, background video processing, admin dashboards, coupons, notifications, and production deployment.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js 16</span><span class="project-tag">React 19</span><span class="project-tag">TypeScript</span><span class="project-tag">PostgreSQL</span><span class="project-tag">Redis</span>
+                        </div>
+                        <span class="project-link-indicator">🌐 View Project →</span>
+                    </div>
+                </a>
 
                 <a class="project-card" href="https://bakka22.github.io/Aswaqak_Customer" target="_blank" rel="noopener">
                     <img class="project-card-image" src="assets/aswaqak_logo.png" alt="Aswaqak App Logo" loading="lazy">
@@ -437,6 +481,8 @@
                 nav_projects: 'Projects', nav_education: 'Education', nav_skills: 'Skills', nav_contact: 'Contact',
                 role: 'Software Developer', cta_work: 'View My Work', cta_contact: 'Get In Touch',
                 sec_projects: 'Projects',
+                proj_khabeer: 'An Android AI agent built by extending the open-source Termux terminal. It supports streaming model execution, tool calling, durable SQLite transcripts, session branching, recovery search, background subagents, memory files, approval-gated writes, plugins, MCP, web search, vision, file attachments, and custom providers.',
+                proj_nilebit: 'A full-stack online learning platform for Sudanese students with course discovery, Bankak enrollment, payment proof review, protected lessons, progress tracking, course communities, bilingual AI support, secure HLS video delivery, background video processing, admin dashboards, coupons, notifications, and production deployment.',
                 proj_aswaqak: 'Flutter-based mobile marketplace for discovering local shops and products by category, state, and city. Customer flows for authentication, shop discovery, product browsing, basket management, and WhatsApp-based order submission.',
                 proj_eiadtek: 'Medical services app developed with Flutter and Dart featuring smooth UI/UX design. Backend built with Python, FastAPI, JWT authentication, and MongoDB database with indexing for fast queries.',
                 proj_exam: 'Comprehensive exam management platform using Python, Flask, Flask-Security, jQuery, HTML, and CSS. Secure user authentication with SQLAlchemy.',
@@ -458,6 +504,8 @@
                 nav_projects: 'المشاريع', nav_education: 'التعليم', nav_skills: 'المهارات', nav_contact: 'تواصل',
                 role: 'مطور برمجيات', cta_work: 'شاهد أعمالي', cta_contact: 'تواصل معي',
                 sec_projects: 'المشاريع',
+                proj_khabeer: 'وكيل ذكاء اصطناعي على أندرويد مبني بتوسيع تطبيق Termux مفتوح المصدر. يدعم تشغيل النماذج بشكل متدفق، واستدعاء الأدوات، وحفظ المحادثات في SQLite، وتفرع الجلسات، والبحث للاسترجاع، والوكلاء الفرعيين في الخلفية، وملفات الذاكرة، والكتابة بعد الموافقة، والإضافات، وMCP، والبحث في الويب، والرؤية، ومرفقات الملفات، ومزودي النماذج المخصصين.',
+                proj_nilebit: 'منصة تعليم إلكتروني متكاملة للطلاب السودانيين، تتضمن اكتشاف الدورات، والتسجيل عبر بنكك، ومراجعة إثبات الدفع، والدروس المحمية، وتتبع التقدم، ومجتمعات الدورات، ودعم ذكاء اصطناعي بالعربية والإنجليزية، وتشغيل فيديو HLS آمن، ومعالجة الفيديو في الخلفية، ولوحات إدارة، وكوبونات، وإشعارات، وإعدادات نشر للإنتاج.',
                 proj_aswaqak: 'تطبيق سوق إلكتروني مبني بـ Flutter لاكتشاف المتاجر والمنتجات المحلية حسب الفئة والولاية والمدينة. يتضمن تدفقات العملاء للمصادقة واستكشاف المتاجر وتصفح المنتجات وإدارة السلة وتقديم الطلبات عبر واتساب.',
                 proj_eiadtek: 'تطبيق خدمات طبية تم تطويره باستخدام Flutter و Dart بتصميم واجهة مستخدم سلس. الواجهة الخلفية مبنية باستخدام Python و FastAPI مع مصادقة JWT وقاعدة بيانات MongoDB.',
                 proj_exam: 'منصة إدارة اختبارات شاملة باستخدام Python و Flask و Flask-Security و jQuery و HTML و CSS. تتضمن مصادقة مستخدم آمنة مع SQLAlchemy.',
@@ -478,18 +526,18 @@
         };
 
         const skillsList = [
-            'Python','Flask','FastAPI','API Development','JWT Authentication','GitHub','C','Flutter','Dart',
-            'Data Structures & Algorithms','Performance Optimization','HTML & CSS','JavaScript','SQLAlchemy',
-            'Bash Scripting','Automation','Testing','SQL & NoSQL Databases','MongoDB','MySQL','Node.js'
+            'Python','Java','C','Dart','JavaScript','TypeScript','HTML & CSS','Flutter','Android SDK','Material UI',
+            'Next.js','React','Node.js','Flask','FastAPI','.NET 8','API Development','REST/SSE APIs','JWT Authentication',
+            'Firebase Auth','PostgreSQL','Prisma','SQLite','SQLAlchemy','MongoDB','MySQL','SQL & NoSQL Databases',
+            'Redis','BullMQ','Socket.IO','FFmpeg','HLS Video','Tailwind CSS','Gradle','Nginx','PM2','Git','GitHub',
+            'GitHub Actions','Vitest','Playwright','Testing','JSON','MCP','Plugin Architecture','Web Search',
+            'Vision & File Attachments','AI Agents','Prompt Injection Protection','Data Structures & Algorithms',
+            'Performance Optimization','Bash Scripting','Automation'
         ];
-        const highlightSkills = ['Python','Flutter','FastAPI','Flask','MongoDB','Node.js'];
 
         function renderSkills() {
             const grid = document.getElementById('skillsGrid');
-            grid.innerHTML = skillsList.map(s => {
-                const cls = highlightSkills.includes(s) ? 'skill-tag highlight' : 'skill-tag';
-                return `<span class="${cls}">${s}</span>`;
-            }).join('');
+            grid.innerHTML = skillsList.map(s => `<span class="skill-tag">${s}</span>`).join('');
         }
 
         let currentLang = 'en';
